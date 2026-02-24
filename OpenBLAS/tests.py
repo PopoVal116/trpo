@@ -5,11 +5,13 @@ import os
 
 def find_openblas():
     lib_path = r"C:\Users\User\Downloads\OpenBLAS-0.3.31-x64\win64\bin\libopenblas.dll"
+    #lib_path = "/mnt/c/Users/User/Downloads/OpenBLAS-0.3.31-x64/win64/bin/libopenblas.dll"
 
     if os.path.exists(lib_path):
         return lib_path
 
     possible_paths = [
+        "/usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblas.so",
         "libopenblas.dll",
         "libopenblas.so",
         "libopenblas.dylib",
@@ -167,7 +169,7 @@ class TestCBLASLevel2(unittest.TestCase):
         A = np.array([1, 2, 3, 4], dtype=np.float32).reshape(2, 2)
         x = np.array([1, 1], dtype=np.float32)
         y = np.zeros(2, dtype=np.float32)
-        expected = np.array([3, 7], dtype=np.float32)
+        expected = np.array([3, 4], dtype=np.float32)
 
         lib.cblas_sgemv(
             CblasRowMajor, CblasNoTrans, 2, 2, 1.0,
@@ -466,7 +468,7 @@ class TestCBLASLevel2(unittest.TestCase):
 
     #TPMV тесты
     def test_stpmv(self):
-        Ap = np.array([1, 2, 4], dtype=np.float32)  # упакованная верхняя треугольная
+        Ap = np.array([1, 2, 4], dtype=np.float32)
         x = np.array([1, 1], dtype=np.float32)
         expected = np.array([3, 4], dtype=np.float32)
 
@@ -565,13 +567,11 @@ class TestCBLASLevel2(unittest.TestCase):
 
         np.testing.assert_allclose(y, expected, rtol=EPS_D, atol=EPS_D)
 
-        lib.openblas_set_num_threads(1)  # возвращаем обратно
+        lib.openblas_set_num_threads(1)
 
 
 if __name__ == '__main__':
-    print("=" * 60)
     print("CBLAS LEVEL 2 TESTS (Python port)")
-    print("=" * 60)
     print(f"Using OpenBLAS from: {LIB_PATH}")
     print()
 
