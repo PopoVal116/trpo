@@ -29,8 +29,8 @@ jobs:
         gcc -o test_correct \
           tests/test_correct.c \
           src/gemm.c \
+          -Iinclude \
           -Itests \
-          -Isrc \
           -lopenblas \
           -fopenmp \
           -lm -O2
@@ -42,7 +42,7 @@ jobs:
         gcc -o perf_test \
           tests/perf_test.c \
           src/gemm.c \
-          -Isrc \
+          -Iinclude \
           -Itests \
           -lopenblas \
           -fopenmp \
