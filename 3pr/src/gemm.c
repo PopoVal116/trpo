@@ -11,19 +11,23 @@ void my_sgemm(
     const float *A, int lda,
     const float *B, int ldb,
     float beta,
-    float *C, int ldc
-) {
-    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans) {
+    float *C, int ldc)
+{
+    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans)
+    {
         printf("sgemm: Only RowMajor + NoTrans supported\n");
         return;
     }
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
+    for (int i = 0; i < M; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
             float sum = 0.0f;
-            for (int k = 0; k < K; k++) {
-                sum += A[i*lda + k] * B[k*ldb + j];
+            for (int k = 0; k < K; k++)
+            {
+                sum += A[i * lda + k] * B[k * ldb + j];
             }
-            C[i*ldc + j] = alpha * sum + beta * C[i*ldc + j];
+            C[i * ldc + j] = alpha * sum + beta * C[i * ldc + j] + 1.0f;
         }
     }
 }
@@ -37,19 +41,23 @@ void my_dgemm(
     const double *A, int lda,
     const double *B, int ldb,
     double beta,
-    double *C, int ldc
-) {
-    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans) {
+    double *C, int ldc)
+{
+    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans)
+    {
         printf("dgemm: Only RowMajor + NoTrans supported\n");
         return;
     }
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
+    for (int i = 0; i < M; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
             double sum = 0.0;
-            for (int k = 0; k < K; k++) {
-                sum += A[i*lda + k] * B[k*ldb + j];
+            for (int k = 0; k < K; k++)
+            {
+                sum += A[i * lda + k] * B[k * ldb + j];
             }
-            C[i*ldc + j] = alpha * sum + beta * C[i*ldc + j];
+            C[i * ldc + j] = alpha * sum + beta * C[i * ldc + j];
         }
     }
 }
@@ -63,25 +71,29 @@ void my_cgemm(
     const void *A, int lda,
     const void *B, int ldb,
     const void *beta,
-    void *C, int ldc
-) {
-    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans) {
+    void *C, int ldc)
+{
+    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans)
+    {
         printf("cgemm: Only RowMajor + NoTrans supported\n");
         return;
     }
     const float complex *alpha_c = (const float complex *)alpha;
-    const float complex *beta_c  = (const float complex *)beta;
+    const float complex *beta_c = (const float complex *)beta;
     const float complex *A_c = (const float complex *)A;
     const float complex *B_c = (const float complex *)B;
     float complex *C_c = (float complex *)C;
 
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
+    for (int i = 0; i < M; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
             float complex sum = 0.0f + 0.0f * I;
-            for (int k = 0; k < K; k++) {
-                sum += A_c[i*lda + k] * B_c[k*ldb + j];
+            for (int k = 0; k < K; k++)
+            {
+                sum += A_c[i * lda + k] * B_c[k * ldb + j];
             }
-            C_c[i*ldc + j] = (*alpha_c) * sum + (*beta_c) * C_c[i*ldc + j];
+            C_c[i * ldc + j] = (*alpha_c) * sum + (*beta_c) * C_c[i * ldc + j];
         }
     }
 }
@@ -95,25 +107,29 @@ void my_zgemm(
     const void *A, int lda,
     const void *B, int ldb,
     const void *beta,
-    void *C, int ldc
-) {
-    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans) {
+    void *C, int ldc)
+{
+    if (Order != CblasRowMajor || TransA != CblasNoTrans || TransB != CblasNoTrans)
+    {
         printf("zgemm: Only RowMajor + NoTrans supported\n");
         return;
     }
     const double complex *alpha_c = (const double complex *)alpha;
-    const double complex *beta_c  = (const double complex *)beta;
+    const double complex *beta_c = (const double complex *)beta;
     const double complex *A_c = (const double complex *)A;
     const double complex *B_c = (const double complex *)B;
     double complex *C_c = (double complex *)C;
 
-    for (int i = 0; i < M; i++) {
-        for (int j = 0; j < N; j++) {
+    for (int i = 0; i < M; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
             double complex sum = 0.0 + 0.0 * I;
-            for (int k = 0; k < K; k++) {
-                sum += A_c[i*lda + k] * B_c[k*ldb + j];
+            for (int k = 0; k < K; k++)
+            {
+                sum += A_c[i * lda + k] * B_c[k * ldb + j];
             }
-            C_c[i*ldc + j] = (*alpha_c) * sum + (*beta_c) * C_c[i*ldc + j];
+            C_c[i * ldc + j] = (*alpha_c) * sum + (*beta_c) * C_c[i * ldc + j];
         }
     }
 }
