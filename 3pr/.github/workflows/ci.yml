@@ -1,4 +1,4 @@
-name: CI - GEMM Tests
+name: CI - GEMM Tests (3pr)
 
 on:
   push:
@@ -25,6 +25,7 @@ jobs:
           g++
 
     - name: Build and run correctness tests
+      working-directory: ./3pr
       run: |
         gcc -o test_correct \
           tests/test_correct.c \
@@ -38,6 +39,7 @@ jobs:
         ./test_correct
 
     - name: Build and run performance tests
+      working-directory: ./3pr
       run: |
         gcc -o perf_test \
           tests/perf_test.c \
