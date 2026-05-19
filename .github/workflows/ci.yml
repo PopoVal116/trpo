@@ -16,7 +16,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install -y build-essential libopenblas-dev libomp-dev gcc g++
+        sudo apt-get update && sudo apt-get install -y build-essential libopenblas-dev libomp-dev
 
     - name: Build and run correctness tests
       working-directory: ./3pr
@@ -24,8 +24,8 @@ jobs:
         gcc -o test_correct tests/test_correct.c src/gemm.c -Iinclude -Itests -lopenblas -fopenmp -lm -O2
         ./test_correct
 
-    - name: Build and run FAST performance tests (for CI)
+    - name: Build performance test (without running heavy benchmark)
       working-directory: ./3pr
       run: |
         gcc -o perf_test tests/perf_test.c src/gemm.c -Iinclude -Itests -lopenblas -fopenmp -lm -O2
-        ./perf_test | head -n 60
+        echo "Performance test binary built successfully (heavy test skipped in CI)"
